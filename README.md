@@ -11,8 +11,8 @@ pip install autovqa
 For development installation:
 
 ```bash
-git clone https://github.com/yourusername/autovqa.git
-cd autovqa
+git clone https://github.com/Ddyln/AutoVQA.git
+cd AutoVQA
 pip install -e ".[dev]"
 ```
 
