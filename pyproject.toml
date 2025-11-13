@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autovqa"
-description = "A Python library for automated visual question answering"
+description = "A Python library for automated visual question answering data generation."
 readme = "README.md"
 license = {file = "LICENSE"}
 dynamic = ["version"]
 
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
     "numpy>=1.20.0",
 ]
