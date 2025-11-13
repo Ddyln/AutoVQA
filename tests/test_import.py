@@ -1,2 +1,5 @@
 def test_import():
-	import autovqa
+    import autovqa
+
+    autovqa.__version__
+    autovqa.version
