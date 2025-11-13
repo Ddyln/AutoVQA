@@ -7,7 +7,7 @@ We welcome contributions to AutoVQA! This document provides guidelines for contr
 1. Fork the repository on GitHub
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/yourusername/autovqa.git
+   git clone https://github.com/Ddyln/AutoVQA.git
    cd autovqa
    ```
 
