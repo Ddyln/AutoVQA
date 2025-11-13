@@ -119,6 +119,9 @@ def multiply(a: int, b: int) -> int:
 
     Returns:
         Product of a and b.
+
+    Example:
+        >>> multiply(2, 3) # Returns 6
     """
     return a * b
 ```
