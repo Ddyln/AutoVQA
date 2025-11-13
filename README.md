@@ -23,6 +23,7 @@ pip install -e ".[dev]"
 ## Documentation
 
 ## Development
+For more details on setting up a development environment, please refer to the [Development Guide](DEV.md).
 
 ## Contributing
 
