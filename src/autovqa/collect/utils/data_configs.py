@@ -1,0 +1,31 @@
+import os
+
+# BASE URL for the data repository
+BASE_DESTINATION = "data/"
+
+# TEXT FILE - Data.zip
+TEXTZIP_ID = "1hRXBHR3QAUy5XPbdyBGsge3GH9FQB4x9"
+TEXTZIP_DESTINATION = os.path.join(BASE_DESTINATION, "data_zip/")
+
+# PREPROCESSED IMAGE FILE - preprocessed_images.zip
+IMAGESZIP_ID = "1Dq4_2eQe_qEqWa6nMJ2S14X78QykZVBC"
+IMAGESZIP_DESTINATION = os.path.join(BASE_DESTINATION, "data_zip/")
+
+# RAW IMAGE FILE - images.zip
+RAW_IMAGESZIP_ID = "1Cj6ZX_zAZGJvL2v0eiWL4s4gG3gLvADN"
+
+# TEXT EXTRACTED
+TEXT_EXTRACTED_DESTINATION = os.path.join(BASE_DESTINATION, "data_text/")
+
+# IMAGE EXTRACTED
+IMAGE_EXTRACTED_DESTINATION = os.path.join(BASE_DESTINATION, "data_images/")
+
+# TEXT JSON
+TEXT_JSON_DESTINATION = os.path.join(
+    TEXT_EXTRACTED_DESTINATION, "Data/combined_dataset/datasetQA_combined.json"
+)
+
+# PREPROCESSED IMAGE
+PREPROCESSED_IMAGE_DESTINATION = os.path.join(
+    IMAGE_EXTRACTED_DESTINATION, "preprocessed_images/"
+)
