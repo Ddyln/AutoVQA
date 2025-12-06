@@ -1,0 +1,33 @@
+[columns]
+numeric = [
+    "etp_txt_grammar_Score_for_question",
+    "etp_txt_unambiguity_Score_for_question",
+    "etp_txt_qa_structure_Score_for_question",
+    "etp_syntactic_complexity_Score_for_question",
+    "etp_language_naturalness_Score_for_question",
+    "eip_img_clarity_Score",
+    "eip_img_occlusion_Score",
+    "eip_img_diff_ability_Score",
+    "eip_img_object_density_Score",
+    "eip_img_interaction_level_Score",
+    "eip_img_scene_clutter_Score",
+    "idp_Scene_typicality_score",
+    "vqac_reason_depth_response",
+    "etp_txt_grammar_Score_answers_median",
+    "etp_txt_unambiguity_Score_answers_median",
+    "etp_txt_qa_structure_Score_answers_median",
+    "etp_syntactic_complexity_Score_answers_median",
+    "etp_language_naturalness_Score_answers_median"
+]
+
+feature = [
+    "idp_Img_scene_type",
+    "idp_Img_main_object"
+]
+
+[balancer_pipeline]
+reason_depth_weight = 4
+percent_min_samples = 0.01
+top_percent = 0.9
+limit_percent = 10
+keep_outliers = true
