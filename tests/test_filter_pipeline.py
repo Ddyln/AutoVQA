@@ -3,7 +3,7 @@
 import pandas as pd
 import pytest
 
-from autovqa.filter.filter_pipeline import filter_pipeline
+from autovqa import filter_pipeline
 
 
 @pytest.fixture

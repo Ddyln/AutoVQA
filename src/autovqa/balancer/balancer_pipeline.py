@@ -1,9 +1,9 @@
 """Balancing pipeline module for advanced data balancing operations."""
 
-import logging
 from typing import List, Optional
 
 import pandas as pd
+from loguru import logger
 
 from .balancer import Balancer
 from .config import (
@@ -15,9 +15,6 @@ from .config import (
     REASON_DEPTH_WEIGHT,
     TOP_PERCENT,
 )
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 def balancer_pipeline(

@@ -1,10 +1,7 @@
-import logging
 from typing import List, Optional
 
 import pandas as pd
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from loguru import logger
 
 
 class Balancer:
@@ -42,18 +39,20 @@ class Balancer:
         Returns:
             pd.DataFrame: Balanced DataFrame (copy).
         """
-        if col not in df.columns:
-            logger.error(f"Column '{col}' not found in DataFrame.")
-            raise ValueError(f"Column '{col}' not found in DataFrame.")
+
         if not isinstance(df, pd.DataFrame):
             logger.error("Input df must be a pandas DataFrame.")
-            raise TypeError("Input df must be a pandas DataFrame.")
+            raise
 
-        counts = df[col].value_counts()
-        total = counts.sum()
-        if total == 0:
-            logger.warning("Input DataFrame is empty.")
-            return df.copy()
+        try:
+            counts = df[col].value_counts()
+            total = counts.sum()
+            if total == 0:
+                logger.warning("Input DataFrame is empty.")
+                return df.copy()
+        except Exception as e:
+            logger.info(f"Column '{col}' not found. Error: {e}")
+            raise e
 
         # 1. Remove rare classes
         min_samples = int(max(total * percent_min_samples, 1))

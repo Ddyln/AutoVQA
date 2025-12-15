@@ -1,5 +1,6 @@
-import tomllib
 from pathlib import Path
+
+import tomli as tomllib
 
 # Load config from TOML file
 config_path = Path(__file__).parent / "config.toml"

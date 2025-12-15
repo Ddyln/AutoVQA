@@ -1,16 +1,13 @@
-import logging
 import os
 from typing import Optional
 
 import numpy as np
 import pandas as pd
+from loguru import logger
 
 from .key_mapper import KeyMapper
 from .processors import MainObjectProcessor, SceneTypeProcessor
 from .utils import Utils
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 class EDA:
@@ -362,13 +359,17 @@ class EDA:
         """
         logger.info("Running EDA pipeline...")
 
-        self._clean_data()
-        self._process_columns()
-        self._calc_score_agg(aggregation_type)
-        self._create_label_columns(thres_type=aggregation_type)
+        try:
+            self._clean_data()
+            self._process_columns()
+            self._calc_score_agg(aggregation_type)
+            self._create_label_columns(thres_type=aggregation_type)
+            if generate_report:
+                self.get_report_on_data(output_dir=output_dir)
 
-        if generate_report:
-            self.get_report_on_data(output_dir=output_dir)
+        except Exception as e:
+            logger.error(f"Error during EDA processing: {e}")
+            return
 
         logger.info("EDA pipeline completed.")
 

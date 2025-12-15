@@ -5,9 +5,7 @@ import json
 import pandas as pd
 import pytest
 
-from autovqa.balancer.balancer_pipeline import balancer_pipeline
-from autovqa.exploratory_data_analysis.eda_pipeline import eda_pipeline
-from autovqa.filter.filter_pipeline import filter_pipeline
+from autovqa import balancer_pipeline, eda_pipeline, filter_pipeline
 
 # Path to the actual test data
 DATA_PATH = (
