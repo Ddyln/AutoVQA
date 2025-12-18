@@ -24,7 +24,7 @@ from appdirs import user_data_dir
 #
 # This ensures library writes data in the correct OS-approved location.
 
-PACKAGE_NAME = "your_package_name"
+PACKAGE_NAME = "your_autovqa_package"
 
 DEFAULT_BASE_DIR = user_data_dir(PACKAGE_NAME)
 
@@ -32,14 +32,7 @@ DEFAULT_BASE_DIR = user_data_dir(PACKAGE_NAME)
 BASE_DESTINATION = os.environ.get("YOURPKG_BASE_DIR", DEFAULT_BASE_DIR)
 
 
-# 2. Google Drive or Dataset IDs
-# ------------------------------------------------------------
-TEXTZIP_ID = "1hRXBHR3QAUy5XPbdyBGsge3GH9FQB4x9"
-IMAGESZIP_ID = "1Dq4_2eQe_qEqWa6nMJ2S14X78QykZVBC"
-RAW_IMAGESZIP_ID = "1Cj6ZX_zAZGJvL2v0eiWL4s4gG3gLvADN"
-
-
-# 3. Directory layout (inside BASE_DESTINATION)
+# 2. Directory layout (inside BASE_DESTINATION)
 # ------------------------------------------------------------
 # The folder structure used by the library.
 # Normally each folder is created lazily by the functions that need it.
@@ -49,7 +42,7 @@ TEXT_EXTRACTED_DESTINATION = os.path.join(BASE_DESTINATION, "text/")
 IMAGE_EXTRACTED_DESTINATION = os.path.join(BASE_DESTINATION, "images/")
 
 
-# 4. Specific target files
+# 3. Specific target files
 # ------------------------------------------------------------
 # JSON dataset location
 # Preprocessed image folder location
@@ -61,19 +54,3 @@ TEXT_JSON_DESTINATION = os.path.join(
 PREPROCESSED_IMAGE_DESTINATION = os.path.join(
     IMAGE_EXTRACTED_DESTINATION, "preprocessed/"
 )
-
-
-# 5. Utility: ensure directory exists (optional)
-# ------------------------------------------------------------
-# This function can be used by your pipeline to guarantee that
-# required directories are created before saving files.
-def ensure_directories():
-    """Create required directories if they do not already exist."""
-    for d in [
-        BASE_DESTINATION,
-        ZIP_DESTINATION,
-        TEXT_EXTRACTED_DESTINATION,
-        IMAGE_EXTRACTED_DESTINATION,
-        PREPROCESSED_IMAGE_DESTINATION,
-    ]:
-        os.makedirs(d, exist_ok=True)

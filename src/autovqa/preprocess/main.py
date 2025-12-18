@@ -1,3 +1,4 @@
+import argparse
 import os
 from typing import Tuple
 
@@ -117,7 +118,19 @@ def run_pipeline(
     -------
     None
         The function writes processed images to disk but does not return anything.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the input folder does not exist.
     """
+    # Validate input folder
+    if not os.path.exists(input_folder):
+        raise FileNotFoundError(f"Input folder does not exist: {input_folder}")
+
+    if not os.path.isdir(input_folder):
+        raise NotADirectoryError(f"Input path is not a directory: {input_folder}")
+
     os.makedirs(output_folder, exist_ok=True)
 
     # Determine target size
@@ -134,6 +147,10 @@ def run_pipeline(
         if f.lower().endswith((".png", ".jpg", ".jpeg"))
     ]
     print(f"Found {len(image_files)} images in {input_folder}")
+
+    if len(image_files) == 0:
+        print("[WARNING] No images found in input folder. Exiting.")
+        return
 
     for idx, filename in enumerate(sorted(image_files)):
         input_path = os.path.join(input_folder, filename)
@@ -152,11 +169,40 @@ def run_pipeline(
             print(f"Finished: {filename}")
         except Exception as e:
             print(f"Error processing {filename}: {e}")
+    
+    print("Preprocessed images saved to:", output_folder)
 
 
 # ------------------ CLI entry ------------------
 def cli():
-    run_pipeline()
+    parser = argparse.ArgumentParser(
+        description="Preprocess images in a folder"
+    )
+    parser.add_argument(
+        "--input",
+        type=str,
+        default=os.path.join(IMAGE_EXTRACTED_DESTINATION, "raw_images_from_urls"),
+        help="Input folder containing raw images (default: from config)",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default=os.path.join(IMAGE_EXTRACTED_DESTINATION, "preprocessed_url_images/"),
+        help="Output folder for preprocessed images (default: from config)",
+    )
+    parser.add_argument(
+        "--normalize",
+        action="store_true",
+        help="Normalize images to [0, 1] range before saving",
+    )
+
+    args = parser.parse_args()
+
+    run_pipeline(
+        input_folder=args.input,
+        output_folder=args.output,
+        do_normalize=args.normalize,
+    )
 
 
 if __name__ == "__main__":

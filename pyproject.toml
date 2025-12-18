@@ -16,6 +16,7 @@ dependencies = [
     "Pillow>=9.0",
     "requests>=2.28",
     "tqdm>=4.64",
+    "appdirs (>=1.4.4,<2.0.0)",
 ]
 
 # dev group cho Poetry v2
