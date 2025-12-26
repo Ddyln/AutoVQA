@@ -1,6 +1,7 @@
 build/
 *.egg-info/
-__pycache__/
+**/__pycache__/
 *.pyc
 .pytest_cache/
 tests/Guide.md
+data/
