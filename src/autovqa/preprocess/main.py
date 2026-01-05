@@ -169,15 +169,13 @@ def run_pipeline(
             print(f"Finished: {filename}")
         except Exception as e:
             print(f"Error processing {filename}: {e}")
-    
+
     print("Preprocessed images saved to:", output_folder)
 
 
 # ------------------ CLI entry ------------------
 def cli():
-    parser = argparse.ArgumentParser(
-        description="Preprocess images in a folder"
-    )
+    parser = argparse.ArgumentParser(description="Preprocess images in a folder")
     parser.add_argument(
         "--input",
         type=str,
