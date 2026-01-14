@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "A Python library for automated visual question answering data generation."
 readme = "README.md"
 license = {file = "LICENSE"}
+dynamic = ["version"]
 requires-python = ">=3.9"
 dependencies = [
     "numpy>=1.20.0",
@@ -19,6 +20,20 @@ dependencies = [
     "appdirs (>=1.4.4,<2.0.0)",
     "loguru>=0.7.3",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "isort>=5.0",
+    "flake8>=3.8",
+    "mypy>=0.900",
+    "pre-commit>=2.15.0",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "autovqa.__version__"}
 
 # dev group cho Poetry v2
 [tool.poetry.group.dev.dependencies]
