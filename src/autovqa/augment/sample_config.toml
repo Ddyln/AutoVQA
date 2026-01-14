@@ -1,0 +1,34 @@
+[gemini]
+api_key = "PUT_YOUR_API_KEY_HERE"
+max_tokens = 2048
+model_name = "models/gemini-flash-lite-latest"
+temperature = 0.9
+
+[qa]
+wait_time=10
+max_retries=3
+system_prompt = "You are an expert data annotator for Vietnamese Visual Question Answering (VQA). Your task is to generate high-quality, naturally phrased question-answer pairs based on image captions. You must strictly adhere to specific reasoning depths and JSON output formats."
+user_prompt = """
+# Task
+
+Generate exactly ONE Question-Answer pairs in Vietnamese based on the image given. Pair must be Reasoning Level {target_level}.
+
+# Reasoning Level Definitions
+
+- Level 1 (Perception): Identifying objects, colors, counts, or basic text (Category: "Xác định đối tượng", "Xác định số lượng").
+- Level 2 (Spatial/Description): Describing positions, simple actions, or scene composition (Category: "Mô tả vị trí", "Mô tả hành động").
+- Level 3 (Relational): Analyzing interactions between objects or comparing attributes (Category: "Mối quan hệ", "Câu hỏi so sánh").
+- Level 4 (Contextual Reasoning): Inferring context, reasons, or time of day based on visual clues (Category: "Lý do/ Nhân quả", "Suy luận ngữ cảnh").
+- Level 5 (Abstract/Hypothetical): Complex inference about emotions, future events, or unstated goals based on the image (Category: "Suy luận ngữ cảnh", "Lý do/ Nhân quả").
+
+# Requirements
+
+1. Questions:
+   - Must be in natural, native-sounding Vietnamese.
+   - Must be answerable only using the visual information implied by the caption.
+   - Avoid generic questions like "Cái này là gì?". Be specific to the scene.
+2. Answers:
+   - Provide exactly 5 distinct, short answers (1-10 words) for the question.
+   - Answers must simulate different annotators (e.g., synonyms, slightly different phrasing).
+   - Truthfulness: All answers must be correct according to the image.
+"""
