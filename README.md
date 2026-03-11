@@ -2,6 +2,11 @@
 
 A Python library for automated visual question answering data generation.
 
+[![Paper](https://img.shields.io/badge/arXiv-2603.09689-b31b1b.svg)](https://arxiv.org/abs/2603.09689)
+[![Dataset](https://img.shields.io/badge/Kaggle-Dataset-20BEFF.svg)](https://www.kaggle.com/datasets/nguynrichard/auto-vivqa)
+
+---
+
 ## Installation
 
 ```bash
@@ -144,4 +149,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you use AutoVQA in your research, please cite:
 
 ```bibtex
+@misc{tuong2026autoviVQA,
+  title  = {AutoViVQA: A Large-Scale Automatically Constructed Dataset for Vietnamese Visual Question Answering},
+  author = {Nguyen Anh Tuong, Phan Ba Duc, Nguyen Trung Quoc, Tran Dac Thinh, Dang Duy Lan, Nguyen Quoc Thinh, Tung Le},
+  year   = {2026},
+  eprint = {2603.09689},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url    = {https://arxiv.org/abs/2603.09689}
+}
 ```
