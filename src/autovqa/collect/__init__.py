@@ -85,7 +85,11 @@ def download_image_from_urls(
         if isinstance(url, str):  # basic validation
             raw_urls.append(url)
     seen: set[str] = set()
-    urls: list[str] = [u for u in raw_urls if u not in seen]
+    urls: list[str] = []
+    for u in raw_urls:
+        if u not in seen:
+            seen.add(u)
+            urls.append(u)
     logger.info(f"Total unique URLs: {len(urls)}")
 
     if not os.path.exists(output_dir):
@@ -101,7 +105,17 @@ def download_image_from_urls(
         logger.info("All images already downloaded.")
         return
 
-    asyncio.run(download_many(urls_to_download, out_dir=output_dir))
+    # Run in a separate thread to avoid "Event loop is already running" error in Jupyter/IPython
+    import threading
+
+    def _run_async(coro):
+        asyncio.run(coro)
+
+    t = threading.Thread(
+        target=_run_async, args=(download_many(urls_to_download, out_dir=output_dir),)
+    )
+    t.start()
+    t.join()
 
 
 def download_default_data(
@@ -117,8 +131,8 @@ def download_default_data(
     # text
     if output is not None:
         textzip_destination = os.path.join(output, "textzip")
-        text_extracted_destination = os.path.join(output, "text_extracted")
-        image_extracted_destination = os.path.join(output, "image_extracted")
+        text_extracted_destination = os.path.join(output, "data_text")
+        image_extracted_destination = os.path.join(output, "data_images")
     else:
         textzip_destination = TEXTZIP_DESTINATION
         text_extracted_destination = TEXT_EXTRACTED_DESTINATION

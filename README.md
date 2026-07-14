@@ -25,24 +25,43 @@ pip install -e ".[dev]"
 
 ```python
 import json
+from autovqa.evaluate import run_evaluate
 from autovqa import eda_pipeline, filter_pipeline, balancer_pipeline
 
-# Load your VQA data
-with open("data.json", "r", encoding="utf-8") as f:
+# Step 1: Evaluate your augmented VQA data (scores image + text quality)
+run_evaluate(limit_samples=-1, max_retries=3)
+
+# Step 2: Load the evaluated data
+with open("evaluated_vqa.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
-# Step 1: Run EDA pipeline
+# Step 3: Run EDA pipeline
 df = eda_pipeline(data, output_dir="./reports", generate_report=True)
 
-# Step 2: Filter low-quality records
+# Step 4: Filter low-quality records
 df = filter_pipeline(df, threshold=0.5)
 
-# Step 3: Balance the dataset
+# Step 5: Balance the dataset
 df = balancer_pipeline(df)
 
 # Save results
 df.to_csv("output.csv", index=False)
 ```
+
+## Pipeline Overview
+
+```
+Collect ──► Augment ──► Evaluate ──► EDA ──► Filter ──► Balance
+```
+
+| Step | Module | Output |
+|------|--------|--------|
+| 1 | `collect` | Raw images + text JSON |
+| 2 | `augment` | `augmented_vqa.json` — new QA pairs |
+| 3 | `evaluate` | `evaluated_vqa.json` — QA + scores |
+| 4 | `eda` | Cleaned DataFrame + Excel reports |
+| 5 | `filter` | Quality-filtered DataFrame |
+| 6 | `balance` | `balanced_data.csv` |
 
 ## Features
 
@@ -74,15 +93,31 @@ Generate VQA question-answer pairs using LLMs (e.g., Gemini).
 ```python
 from autovqa.augment.client import AugmentClient
 
-client = AugmentClient(service_name="gemini")
+client = AugmentClient(service_name="google")
 results = client.run_pipeline(
     image_folder_dir="./images",
     output_json_path="./augmented_vqa.json"
 )
 ```
 
+### Evaluate
+Score each QA pair and its image across multiple dimensions using Gemini. You can use either a Google API key via `GOOGLE_API_KEY` or Google Cloud / Vertex AI credentials.
+
+```python
+from autovqa.evaluate import run_evaluate
+
+# Evaluate all records (supports resuming from checkpoints)
+run_evaluate(limit_samples=-1, max_retries=3)
+```
+
+Scores produced per record:
+- **`eip_`** — Image quality (clarity, occlusion, object density, scene clutter, etc.)
+- **`idp_`** — Image diversity (scene type, main object, cultural context, demographics)
+- **`etp_`** — Text quality (grammar, unambiguity, QA structure, syntactic complexity)
+- **`vqac_`** — VQA correlation (question↔image, answer↔image, reasoning depth)
+
 ### EDA (Exploratory Data Analysis)
-Analyze VQA data with cleaning, feature extraction, and report generation.
+Analyze evaluated VQA data with cleaning, feature extraction, and report generation.
 
 ```python
 from autovqa import eda_pipeline
@@ -115,23 +150,27 @@ df_balanced = balancer_pipeline(df_filtered, output_path="./balanced.csv")
 
 ## Data Format
 
-AutoVQA expects JSON data in the following format:
+AutoVQA expects JSON data in the following format for the EDA/Filter/Balance pipeline (output of the Evaluate step):
 
 ```json
 [
     {
         "question": "What is in the image?",
         "answers": ["Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5"],
-        "category": "Category name",
-        "coco_url": "http://images.cocodataset.org/...",
-        "index": 1
+        "image_link": "http://images.cocodataset.org/...",
+        "image_name": "000000001.jpg",
+        "index": 1,
+        "image_quality_evaluation": { "...": "..." },
+        "image_diversity_evaluation": { "...": "..." },
+        "text_quality_evaluation": { "...": "..." },
+        "correlation_evaluation": { "...": "..." }
     }
 ]
 ```
 
 ## Documentation
 
-See the [Getting Started Notebook](docs/getting_started.ipynb) for detailed usage examples.
+See the [Getting Started Notebook](docs/getting_started.ipynb) for detailed usage examples, or the [Example Notebook](docs/example.ipynb) for a minimal end-to-end run.
 
 ## Development
 For more details on setting up a development environment, please refer to the [Development Guide](DEV.md).

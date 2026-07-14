@@ -1,3 +1,4 @@
+import os
 from typing import List, Optional
 
 import pandas as pd
@@ -172,6 +173,7 @@ class Balancer:
         df_filter = df_raw.iloc[selected_index].reset_index(drop=True)
 
         if output_path:
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
             df_filter.to_csv(output_path, index=False, encoding="utf-8")
             logger.info(f"Balanced data saved to {output_path}")
 
