@@ -19,11 +19,12 @@ def get_config_path() -> Path:
     Returns:
         Path to the config.toml file.
     """
-    config_dir = user_config_dir(
-        appname=APP_NAME,
-        appauthor=APP_AUTHOR,
-    )
-    return Path(config_dir) / "config.toml"
+    return Path(__file__).parent / "sample_config.toml"
+    # config_dir = user_config_dir(
+    #     appname=APP_NAME,
+    #     appauthor=APP_AUTHOR,
+    # )
+    # return Path(config_dir) / "config.toml"
 
 
 def load_config() -> Dict[str, Any]:
@@ -65,8 +66,8 @@ def get_openai_api_key(service_name: Optional[str] = None) -> str:
     ```
 
     Args:
-        service_name: Name of the service (e.g., 'gemini', 'gpt', 'claude').
-                     Defaults to 'gemini' if not provided.
+        service_name: Name of the service (e.g., 'google', 'gpt', 'claude').
+                     Defaults to 'google' if not provided.
 
     Returns:
         The API key as a string.
@@ -74,7 +75,7 @@ def get_openai_api_key(service_name: Optional[str] = None) -> str:
     Raises:
         ValueError: If the API key is not found in any location.
     """
-    service_name = (service_name or "gemini").lower()
+    service_name = (service_name or "google").lower()
     logger.debug(f"Retrieving API key for service: {service_name}")
 
     load_dotenv()
@@ -95,10 +96,10 @@ def get_openai_api_key(service_name: Optional[str] = None) -> str:
     if not config:
         raise ValueError(
             f"API key for '{service_name}' not found. "
-            f"Please set the {env_var_name} environment variable or "
-            f"create a config file at {config_path} with the following structure:\n\n"
-            f"[{service_name}]\n"
-            f'api_key = "your-key-here"'
+            f"Please set the {env_var_name} environment variable "
+            # f"or create a config file at {config_path} with the following structure:\n\n"
+            # f"[{service_name}]\n"
+            # f'api_key = "your-key-here"'
         )
 
     # Check if service exists in config
